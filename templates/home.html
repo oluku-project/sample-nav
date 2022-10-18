@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+
+{% block scripts %}
+<script src="{% static 'app.js' %}" defer></script>
+{% endblock scripts %}
+
+   
+{% block title %}
+   Tab
+{% endblock title %}
+    
+{% block content %}
+  <section class="section">
+      <div class="about-center section-center">
+         <article class="about">
+          <!-- btn container -->
+          <div class="btn-container">
+            <button data-id="machine_form" class="tab-btn active">machine</button>
+            <button data-id="farmer_form" class="tab-btn">farmar</button>
+            <button data-id="service_provider_form" class="tab-btn">service provider</button>
+          </div>
+          <!-- Detail Container -->
+          <article class="about-content">
+               <!-- MACHINE -->
+            <div class="content active" id="machine_form">
+                  <form action="#" method="post">
+                     {% csrf_token %}
+                     {{ machine_form|crispy }}
+                     
+                  </form>
+            </div>
+            <!-- END MACHINE -->
+            <!-- FARMER -->
+            <div class="content " id="farmer_form">
+                  <form action="#" method="post">
+                     {% csrf_token %}
+                     {{ farmer_form|crispy }}
+                     
+                  </form>
+            </div>
+            <!-- END FARMER -->
+            <!-- SERVICE PROVIDER -->
+            <div class="content" id="service_provider_form">
+                  <form action="#" method="post">
+                     {% csrf_token %}
+                     {{ service_provider_form|crispy }}
+                    
+                  </form>
+            </div>
+            <!-- END SERVICE PROVIDER -->
+
+          </article>
+         </article>
+      </div>
+  </section>
+
+{% endblock content %}
+
+    
