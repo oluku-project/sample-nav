@@ -22,14 +22,19 @@
             <button data-id="machine_form" class="tab-btn active">machine</button>
             <button data-id="farmer_form" class="tab-btn">farmar</button>
             <button data-id="service_provider_form" class="tab-btn">service provider</button>
+            <button data-id="upload_file" class="tab-btn">uplad file</button>
           </div>
           <!-- Detail Container -->
           <article class="about-content">
                <!-- MACHINE -->
             <div class="content active" id="machine_form">
-                  <form action="#" method="post">
+                      <a href="{% url 'excel'%}" class="btn ">To Excel</a>
+
+
+                  <form method="POST">
                      {% csrf_token %}
                      {{ machine_form|crispy }}
+                     <button type="submit" class="btn btn-info ">submit</button>
                      
                   </form>
             </div>
@@ -52,6 +57,21 @@
                   </form>
             </div>
             <!-- END SERVICE PROVIDER -->
+            <!-- EXCEL FILE -->
+            <div class="content" id="upload_file">
+               <h5>Upload your excel documents here</h5>
+               <br>
+               <div id="alert-box"></div>
+
+               <form method="POST" id="myDropZone" class="dropzone dz">
+                  {% csrf_token %}
+                  <div class="fallback">
+                     <input name="file" type="file" multiple />
+                  </div>
+               </form>
+
+            </div>
+            <!-- END EXCEL FILE -->
 
           </article>
          </article>

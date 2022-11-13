@@ -24,3 +24,13 @@ class ServiceProvider(models.Model):
   payment = models.CharField(max_length=100,unique=True)
   created = models.DateTimeField(auto_now_add=True)
   updated = models.DateTimeField(auto_now=True)
+
+
+class ExcelFile(models.Model):
+    file_name = models.CharField(max_length=120, null=True)
+    excel_file = models.FileField(upload_to='excel', null=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return str(self.file_name)

@@ -4,7 +4,7 @@ from tab.models import Machine,Farmer,ServiceProvider
 class MachineForm(forms.ModelForm):
     class Meta:
         model = Machine
-        exclude = ('created',)
+        fields = ['name','gps_loc','description','barcode']
     
 class FarmerForm(forms.ModelForm):
     class Meta:
