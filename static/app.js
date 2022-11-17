@@ -46,7 +46,7 @@ const myDropzone = new Dropzone('#myDropZone', {
 			formData.append('csrfmiddlewaretoken', csrf)
 		}) // sending
 		this.on('success', function (file, response) {
-			console.log(response)
+			console.log(file, '--', response)
 			if (response.ex) {
 				handleAlerts('danger', 'File already exists')
 			} else {
