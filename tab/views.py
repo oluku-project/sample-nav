@@ -38,7 +38,7 @@ def excel_upload_view(request):
         # df['No Present'] = df.query('Attendance Status == "None"')
         # df.index=df['Time']
         
-        pp=df.groupby(['Person ID',df['Time'].dt.month]).apply(lambda x: x[x['Attendance Status']=='None'].count())
+        pp=df.groupby(['Person ID',df['Time'].dt.month]).apply(lambda x: x[x['Attendance Status']=='present'].count())
         # df.groupby('Person ID',pd.Grouper(freq='M')).apply(lambda x:x)
         # ['price'].agg('sum')
         print(pp)
