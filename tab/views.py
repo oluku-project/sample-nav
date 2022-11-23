@@ -4,6 +4,7 @@ from .forms import (MachineForm,FarmerForm,ServiceProviderForm)
 from .models import Machine,ExcelFile
 import pandas as pd
 from django.http import JsonResponse
+import numpy as np
 
 # Create your views here.
 def home(request):
@@ -28,20 +29,55 @@ def excel_upload_view(request):
     # excel_file_name = request.FILES.get('file').name
     try:
         excel_file = request.FILES.get('file')
+        '''
         # path = str(excel_file)
         # df = pd.read_excel(excel_file,sheet_name='Sheet1',header=2,usecols=['Person ID','Time','Attendance Status','Attendance Check Point','Custom Name','Data Source',])
-        df = pd.read_excel(excel_file,sheet_name='Sheet1',header=2,usecols=['Person ID','Time','Attendance Status'])
-        df['Time'] =pd.to_datetime(df['Time'])
+        
+        # df['Time'] =pd.to_datetime(df['Time'])
         # df['Attendance Status'] =df['Attendance Status'].apply(lambda x: str(x))
         # df = pd.crosstab(df['Time'].dt.to_period('m'),df['Time'])
         # df['month']=df['Time'].dt.month
         # df['No Present'] = df.query('Attendance Status == "None"')
         # df.index=df['Time']
         
-        pp=df.groupby(['Person ID',df['Time'].dt.month]).apply(lambda x: x[x['Attendance Status']=='present'].count())
+        # pp=df.groupby(['Person ID',df['Time'].dt.month]).apply(lambda x: x[x['Attendance Status']=='present'].count())
+
+
         # df.groupby('Person ID',pd.Grouper(freq='M')).apply(lambda x:x)
         # ['price'].agg('sum')
-        print(pp)
+        
+
+               # ff=df.groupby([df['Student ID'],df['Monthly Status'].dt.month_name('en')]).count()
+               
+        # d=cc.groupby([df['Student ID'],df['Monthly Status'].dt.month_name('en')])['Days Present'].count()
+
+        # d=cc['pre']=cc.groupby([cc['Student ID'],cc['Monthly Status'].dt.month_name('en')]).transform('size')
+
+        # df['present']=np.where(df['Days Present']=='present',1,0)
+        # c=df.iloc[0:10]
+        
+        # df=df['Student ID','Monthly Status'].groupby([df['Student ID'],df['Monthly Status'].dt.month_name('en')]).size().to_frame('pre')
+        # vf=pre.to_dict()
+        '''
+        # Read excel file
+        df = pd.read_excel(excel_file,sheet_name='Sheet1',header=2,usecols=['Person ID','Time','Attendance Status'], parse_dates=['Time'])
+
+        # Rename some columns
+        df.rename(columns={'Person ID':'Student ID','Time':'Month','Attendance Status':'Days Present'},inplace = True)
+
+        # Check column with present only
+        df=df[df['Days Present']=='present']
+
+        # filter columns
+        df=df.groupby([df['Student ID'],df['Month'].dt.month_name('en')]).size().sort_values(ascending=False).reset_index(name='present')
+       
+        # print and format data
+        print('Student ID','Monthly Status','Total Present')
+        for value in df.values:
+            i = value.tolist()
+            print('{:^10} {:^10} {:^10}'.format(i[0],i[1],i[2]))
+
+        
     except KeyError as w:
         print(w)
 
